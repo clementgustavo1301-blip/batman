@@ -23,13 +23,13 @@ export default function useCallNotification(): UseCallNotificationResult {
             return; // Don't show again
         }
 
-        // Trigger after 20 seconds
+        // Trigger after 5 seconds
         const timer = setTimeout(() => {
-            // Random selection: 70% Alfred, 30% Joker
-            const selectedCharacter: Character = Math.random() < 0.7 ? 'alfred' : 'joker';
+            // Force Joker for now as requested
+            const selectedCharacter: Character = 'joker';
             setCharacter(selectedCharacter);
             setShowCall(true);
-        }, 20000); // 20 seconds
+        }, 5000); // 5 seconds
 
         return () => clearTimeout(timer);
     }, []);
