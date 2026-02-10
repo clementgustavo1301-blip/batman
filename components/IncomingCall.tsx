@@ -75,7 +75,7 @@ export default function IncomingCall({
         setIsHacking(true);
         setHackProgress(0);
         setHackLogs(['INITIALIZING BRUTE FORCE...']);
-        stopRingtone(); // Stop ringtone when hacking starts logic-wise
+        // Ringtone continues playing during hack as per user request ("o coringa continua falando no audio")
 
         // Hacking Simulation
         let progress = 0;
@@ -142,28 +142,28 @@ export default function IncomingCall({
                         >
                             {/* HAHAHA Overlay Logic */}
                             {hasHacked && !isAlfred && (
-                                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                                    {[...Array(20)].map((_, i) => (
+                                <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden mix-blend-color-dodge">
+                                    {[...Array(50)].map((_, i) => (
                                         <motion.div
                                             key={i}
                                             initial={{
                                                 opacity: 0,
-                                                x: Math.random() * 300 - 150,
+                                                x: Math.random() * 400 - 200,
                                                 y: Math.random() * 800 - 400,
                                                 scale: 0.5
                                             }}
                                             animate={{
                                                 opacity: [0, 1, 0],
-                                                scale: [0.5, 1.5, 2],
-                                                rotate: [0, Math.random() * 90 - 45]
+                                                scale: [0.5, 2, 3],
+                                                rotate: [0, Math.random() * 180 - 90]
                                             }}
                                             transition={{
-                                                duration: 2 + Math.random(),
+                                                duration: 1 + Math.random() * 2,
                                                 repeat: Infinity,
-                                                delay: Math.random() * 2,
-                                                ease: "easeInOut"
+                                                delay: Math.random() * 3,
+                                                ease: "easeOut"
                                             }}
-                                            className="absolute left-1/2 top-1/2 text-purple-600/30 font-bold font-mono text-2xl md:text-4xl whitespace-nowrap select-none"
+                                            className="absolute left-1/2 top-1/2 text-purple-600/60 font-bold font-mono text-2xl md:text-5xl whitespace-nowrap select-none"
                                         >
                                             HAHAHA
                                         </motion.div>
@@ -271,147 +271,148 @@ export default function IncomingCall({
                                                         className="w-2 bg-green-500 rounded-full"
                                                     />
                                                 ))}
-
-                                                {/* HACK BUTTON (In-Call) - ENSURED VISIBILITY */}
-                                                {!isAlfred && (
-                                                    <div className="w-full flex justify-center z-50">
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                startHack();
-                                                            }}
-                                                            className="animate-pulse bg-black/50 backdrop-blur-sm text-xs text-amber-500 font-mono tracking-widest border border-amber-600/50 px-6 py-3 hover:bg-amber-600/20 rounded-full flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
-                                                        >
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.2-2.858.59-4.18" />
-                                                            </svg>
-                                                            DECRYPT SIGNAL
-                                                        </button>
-                                                    </div>
-                                                )}
                                             </div>
-                                            ) : (
-                                            // Caller Avatar (Hacked or Initial)
-                                            <div className={`relative w-40 h-40 rounded-full overflow-hidden border-2 bg-gray-900 shadow-inner group ${hasHacked ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.5)]' : 'border-gray-800'}`}>
-                                                {isAlfred ? (
-                                                    <img
-                                                        src="https://static.wikia.nocookie.net/batman/images/e/e6/Alfred_Pennyworth_Infobox.jpg"
-                                                        className="w-full h-full object-cover grayscale opacity-50"
-                                                        alt="Caller"
-                                                    />
-                                                ) : hasHacked ? (
-                                                    // REVEALED IDENTITY
-                                                    <motion.img
-                                                        initial={{ opacity: 0, scale: 0.8 }}
-                                                        animate={{ opacity: 1, scale: 1 }}
-                                                        transition={{ duration: 0.5 }}
-                                                        src="https://i.pinimg.com/736x/2c/08/04/2c0804e9d3c4319dc235ce4a259c0ea4.jpg"
-                                                        className="w-full h-full object-cover grayscale-[0.2]"
-                                                        alt="JOKER"
-                                                    />
-                                                ) : (
-                                                    // Anonymous Silhouette
-                                                    <div className="w-full h-full flex items-center justify-center bg-black">
-                                                        <svg className="w-20 h-20 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+
+                                            {/* HACK BUTTON (In-Call) - ENSURED VISIBILITY */}
+                                            {!isAlfred && (
+                                                <div className="w-full flex justify-center z-50">
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            startHack();
+                                                        }}
+                                                        className="animate-pulse bg-black/50 backdrop-blur-sm text-xs text-amber-500 font-mono tracking-widest border border-amber-600/50 px-6 py-3 hover:bg-amber-600/20 rounded-full flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.2-2.858.59-4.18" />
                                                         </svg>
-                                                    </div>
-                                                )}
-
-                                                {/* Glitch Overlay for Unknown */}
-                                                {!isAlfred && !hasHacked && (
-                                                    <div className="absolute inset-0 bg-red-900/10 mix-blend-overlay animate-pulse"></div>
-                                                )}
-                                            </div>
-                                    )}
+                                                        DECRYPT SIGNAL
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
+                                    ) : (
+                                        // Caller Avatar (Hacked or Initial)
+                                        <div className={`relative w-40 h-40 rounded-full overflow-hidden border-2 bg-gray-900 shadow-inner group ${hasHacked ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.5)]' : 'border-gray-800'}`}>
+                                            {isAlfred ? (
+                                                <img
+                                                    src="https://static.wikia.nocookie.net/batman/images/e/e6/Alfred_Pennyworth_Infobox.jpg"
+                                                    className="w-full h-full object-cover grayscale opacity-50"
+                                                    alt="Caller"
+                                                />
+                                            ) : hasHacked ? (
+                                                // REVEALED IDENTITY
+                                                <motion.img
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                    src="https://i.pinimg.com/736x/2c/08/04/2c0804e9d3c4319dc235ce4a259c0ea4.jpg"
+                                                    className="w-full h-full object-cover grayscale-[0.2]"
+                                                    alt="JOKER"
+                                                />
+                                            ) : (
+                                                // Anonymous Silhouette
+                                                <div className="w-full h-full flex items-center justify-center bg-black">
+                                                    <svg className="w-20 h-20 text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                                    </svg>
+                                                </div>
+                                            )}
+
+                                            {/* Glitch Overlay for Unknown */}
+                                            {!isAlfred && !hasHacked && (
+                                                <div className="absolute inset-0 bg-red-900/10 mix-blend-overlay animate-pulse"></div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Action Area */}
-                                    <div className="w-full space-y-4 mb-8 min-h-[160px] flex flex-col justify-end">
-                                        {!isAccepted && !isHacking ? (
-                                            <>
-                                                {/* Slide to Answer */}
-                                                <div className="relative h-16 w-full bg-white/5 rounded-full backdrop-blur-sm overflow-hidden p-1 border border-white/10">
-                                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 text-xs font-bold tracking-widest pointer-events-none">
-                                                        slide to answer
-                                                    </div>
-
-                                                    <motion.div
-                                                        drag="x"
-                                                        dragConstraints={{ left: 0, right: 280 }}
-                                                        dragElastic={0.1}
-                                                        dragSnapToOrigin
-                                                        onDragEnd={(_, info) => {
-                                                            if (info.offset.x > 200) {
-                                                                handleAccept();
-                                                            }
-                                                        }}
-                                                        className="h-full aspect-square rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing shadow-lg bg-green-900/80 border border-green-500/50"
-                                                    >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                        </svg>
-                                                    </motion.div>
+                                <div className="w-full space-y-4 mb-8 min-h-[160px] flex flex-col justify-end">
+                                    {!isAccepted && !isHacking ? (
+                                        <>
+                                            {/* Slide to Answer */}
+                                            <div className="relative h-16 w-full bg-white/5 rounded-full backdrop-blur-sm overflow-hidden p-1 border border-white/10">
+                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 text-xs font-bold tracking-widest pointer-events-none">
+                                                    slide to answer
                                                 </div>
 
-                                                {/* HACK BUTTON */}
-                                                <div className="flex justify-center w-full">
-                                                    <button
-                                                        onClick={startHack}
-                                                        className="group relative px-6 py-2 overflow-hidden rounded bg-transparent border border-amber-600/50 text-amber-500 font-mono text-xs tracking-[0.2em] transition-all hover:bg-amber-600/10 hover:border-amber-500 hover:text-amber-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.3)]"
-                                                    >
-                                                        <span className="relative z-10 flex items-center gap-2">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                                            </svg>
-                                                            HACK SECURE LINE
-                                                        </span>
-                                                    </button>
-                                                </div>
+                                                <motion.div
+                                                    drag="x"
+                                                    dragConstraints={{ left: 0, right: 280 }}
+                                                    dragElastic={0.1}
+                                                    dragSnapToOrigin
+                                                    onDragEnd={(_, info) => {
+                                                        if (info.offset.x > 200) {
+                                                            handleAccept();
+                                                        }
+                                                    }}
+                                                    className="h-full aspect-square rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing shadow-lg bg-green-900/80 border border-green-500/50"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                    </svg>
+                                                </motion.div>
+                                            </div>
 
-                                                {/* Decline Button */}
-                                                <div className="flex justify-center mt-2">
-                                                    <button
-                                                        onClick={handleDecline}
-                                                        className="text-xs text-red-900/50 hover:text-red-500 transition-colors tracking-widest uppercase font-bold"
-                                                    >
-                                                        Decline
-                                                    </button>
-                                                </div>
-                                            </>
-                                        ) : isHacking ? (
-                                            // Hacking Controls (Abort)
+                                            {/* HACK BUTTON */}
                                             <div className="flex justify-center w-full">
                                                 <button
-                                                    onClick={() => {
-                                                        setIsHacking(false);
-                                                        // We don't decline here if it was already accepted, just abort hack
-                                                    }}
-                                                    className="text-xs text-red-500 font-mono tracking-widest border border-red-900/50 px-4 py-2 hover:bg-red-900/20"
+                                                    onClick={startHack}
+                                                    className="group relative px-6 py-2 overflow-hidden rounded bg-transparent border border-amber-600/50 text-amber-500 font-mono text-xs tracking-[0.2em] transition-all hover:bg-amber-600/10 hover:border-amber-500 hover:text-amber-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.3)]"
                                                 >
-                                                    ABORT HACK SEQUENCE
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                                        </svg>
+                                                        HACK SECURE LINE
+                                                    </span>
                                                 </button>
                                             </div>
-                                        ) : (
-                                            // End Call Button (Active State)
-                                            <div className="flex flex-col items-center justify-center gap-4 h-full">
-                                                {/* Audio Logic Embedded */}
-                                                <div className="hidden">
-                                                    {children}
-                                                </div>
 
+                                            {/* Decline Button */}
+                                            <div className="flex justify-center mt-2">
                                                 <button
                                                     onClick={handleDecline}
-                                                    className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-lg hover:bg-red-700 transition-colors"
+                                                    className="text-xs text-red-900/50 hover:text-red-500 transition-colors tracking-widest uppercase font-bold"
                                                 >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l2-2m0 0l2-2m-2 2l-2 2m7.5 5.5L21 21m-9-1c2-2.5 5-2.5 5-2.5v-1l-2-2-2 2s-3 0-5 2.5V3a2 2 0 00-2-2 2 2 0 00-2 2v14l-4 4" />
-                                                    </svg>
+                                                    Decline
                                                 </button>
                                             </div>
-                                        )}
-                                    </div>
+                                        </>
+                                    ) : isHacking ? (
+                                        // Hacking Controls (Abort)
+                                        <div className="flex justify-center w-full">
+                                            <button
+                                                onClick={() => {
+                                                    setIsHacking(false);
+                                                    // We don't decline here if it was already accepted, just abort hack
+                                                }}
+                                                className="text-xs text-red-500 font-mono tracking-widest border border-red-900/50 px-4 py-2 hover:bg-red-900/20"
+                                            >
+                                                ABORT HACK SEQUENCE
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        // End Call Button (Active State)
+                                        <div className="flex flex-col items-center justify-center gap-4 h-full">
+                                            {/* Audio Logic Embedded */}
+                                            <div className="hidden">
+                                                {children}
+                                            </div>
+
+                                            <button
+                                                onClick={handleDecline}
+                                                className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-lg hover:bg-red-700 transition-colors"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l2-2m0 0l2-2m-2 2l-2 2m7.5 5.5L21 21m-9-1c2-2.5 5-2.5 5-2.5v-1l-2-2-2 2s-3 0-5 2.5V3a2 2 0 00-2-2 2 2 0 00-2 2v14l-4 4" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
+                            </div>
                         </motion.div>
                     </motion.div>
                 </>
