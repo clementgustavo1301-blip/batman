@@ -16,12 +16,7 @@ export default function useCallNotification(): UseCallNotificationResult {
     const [character, setCharacter] = useState<Character>(null);
 
     useEffect(() => {
-        // Check if user already got a call in this session
-        const hasReceivedCall = sessionStorage.getItem('batman_call_received');
 
-        if (hasReceivedCall) {
-            return; // Don't show again
-        }
 
         // Trigger after 5 seconds
         const timer = setTimeout(() => {
@@ -35,12 +30,11 @@ export default function useCallNotification(): UseCallNotificationResult {
     }, []);
 
     const acceptCall = () => {
-        sessionStorage.setItem('batman_call_received', 'true');
+        // Log accepted
     };
 
     const declineCall = () => {
         setShowCall(false);
-        sessionStorage.setItem('batman_call_received', 'true');
     };
 
     return {
