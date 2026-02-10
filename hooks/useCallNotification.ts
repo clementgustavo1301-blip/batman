@@ -18,13 +18,13 @@ export default function useCallNotification(): UseCallNotificationResult {
     useEffect(() => {
 
 
-        // Trigger after 5 seconds
+        // Trigger after 20 seconds
         const timer = setTimeout(() => {
             // Force Joker for now as requested
             const selectedCharacter: Character = 'joker';
             setCharacter(selectedCharacter);
             setShowCall(true);
-        }, 5000); // 5 seconds
+        }, 20000); // 20 seconds
 
         return () => clearTimeout(timer);
     }, []);
