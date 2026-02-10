@@ -48,17 +48,6 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
         let isMounted = true;
         let isSkipped = false;
 
-        // Interaction listener to skip animation if user gets impatient
-        const skipAnimation = () => {
-            if (!waitingForInput) {
-                isSkipped = true;
-            }
-        };
-        // We only want skip to work if we are animating. 
-        // If we are waiting for input, the interaction should trigger handleInteraction instead.
-        // But since we use same events, we need to be careful.
-        // Actually, handleInteraction is on the div.
-
         const runSequence = async () => {
             // Initial slight pause
             await wait(200);

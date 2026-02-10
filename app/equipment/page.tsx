@@ -14,7 +14,7 @@ export default function EquipmentPage() {
         animate="animate"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        {equipmentList.map((item, index) => (
+        {equipmentList.map((item) => (
           <motion.div
             key={item.id}
             variants={holographicCard}
@@ -41,8 +41,8 @@ export default function EquipmentPage() {
               </h2>
               {/* Status - Monochrome/Stealth */}
               <span className={`text-[10px] font-mono px-2 py-1 border ${item.status === 'operational' ? 'border-gray-800 text-gray-500 bg-gray-900/50' :
-                  item.status === 'maintenance' ? 'border-gray-800 text-gray-600 bg-black' :
-                    'border-wayne-gold/20 text-wayne-gold/70 bg-wayne-gold/5'
+                item.status === 'maintenance' ? 'border-gray-800 text-gray-600 bg-black' :
+                  'border-wayne-gold/20 text-wayne-gold/70 bg-wayne-gold/5'
                 }`}>
                 {item.status.toUpperCase()}
               </span>
