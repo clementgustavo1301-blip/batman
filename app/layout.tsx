@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Montserrat } from 'next/font/google'
 import './globals.css'
+import GlobalCallManager from '@/components/GlobalCallManager'
 
 const inter = Inter({
     subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
                 className="antialiased bg-[#0A0A0A] text-[#E8D5B5]"
                 style={{ backgroundColor: '#0A0A0A', color: '#E8D5B5' }}
             >
+                <GlobalCallManager />
                 {children}
             </body>
         </html>
