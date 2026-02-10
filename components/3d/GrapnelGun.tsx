@@ -40,6 +40,12 @@ export default function GrapnelGun() {
                 <boxGeometry args={[0.8, 1.2, 3]} />
             </mesh>
 
+            {/* DEBUG BOX - DELETE LATER */}
+            <mesh position={[0, 2, 0]}>
+                <boxGeometry args={[0.5, 0.5, 0.5]} />
+                <meshBasicMaterial color="green" wireframe />
+            </mesh>
+
             {/* Handle Grip */}
             <mesh position={[0, -1, -0.5]} rotation={[Math.PI / 6, 0, 0]} material={gripMaterial}>
                 <boxGeometry args={[0.6, 1.5, 0.8]} />
