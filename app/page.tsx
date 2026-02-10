@@ -90,8 +90,8 @@ export default function HomePage() {
                     <audio
                         ref={audioRef}
                         src={character === 'alfred'
-                            ? "/audio/alfred_message.mp3" // Placeholder/Fallback
-                            : "/audio/joker_call.mp3"
+                            ? "/audio/alfred_message.mp3"
+                            : `/audio/joker_call.mp3?v=${new Date().getTime()}`
                         }
                         loop={false}
                         onEnded={handleMessageClose}
