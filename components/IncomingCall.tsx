@@ -27,10 +27,11 @@ export default function IncomingCall({
     const [isHacking, setIsHacking] = useState(false);
     const [hackProgress, setHackProgress] = useState(0);
     const [hackLogs, setHackLogs] = useState<string[]>([]);
+    const [hasHacked, setHasHacked] = useState(false);
 
     // Identity logic: Joker is "UNKNOWN" until hacked (or normally)
-    const displayName = isAlfred ? 'ALFRED' : 'UNKNOWN';
-    const displayRole = isAlfred ? 'SECURE LINE' : 'RESTRICTED ID';
+    const displayName = isAlfred ? 'ALFRED' : (hasHacked ? 'THE JOKER' : 'UNKNOWN');
+    const displayRole = isAlfred ? 'SECURE LINE' : (hasHacked ? 'IDENTITY REVEALED' : 'RESTRICTED ID');
 
     const cleanupRef = useRef<(() => void) | undefined>();
     const logIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -107,7 +108,11 @@ export default function IncomingCall({
             if (progress >= 100) {
                 clearInterval(timer);
                 setTimeout(() => {
-                    handleAccept();
+                    setHasHacked(true);
+                    setIsHacking(false);
+                    if (!isAccepted) {
+                        handleAccept();
+                    }
                 }, 500);
             }
         }, intervalTime);
@@ -161,11 +166,13 @@ export default function IncomingCall({
                                         </div>
                                     ) : (
                                         <>
-                                            <h2 className="font-bold text-3xl md:text-4xl text-white tracking-widest mt-4">
+                                            <h2 className={`font-bold text-3xl md:text-4xl tracking-widest mt-4 ${hasHacked && !isAlfred ? 'text-green-500 glitch-text' : 'text-white'}`}>
                                                 {displayName}
                                             </h2>
                                             <p className="text-xs tracking-widest text-gray-500 uppercase">
-                                                {isAccepted ? 'CONNECTED 00:01' : displayRole}
+                                                {isAccepted ? (
+                                                    hasHacked ? 'SECURE CHANNEL OVERRIDE' : 'CONNECTED 00:01'
+                                                ) : displayRole}
                                             </p>
                                         </>
                                     )}
@@ -216,30 +223,56 @@ export default function IncomingCall({
                                                 {Math.round(hackProgress)}% COMPLETE
                                             </div>
                                         </div>
-                                    ) : isAccepted ? (
-                                        // Active Call Visualizer
-                                        <div className="flex items-center gap-1 h-12">
-                                            {[...Array(5)].map((_, i) => (
-                                                <motion.div
-                                                    key={i}
-                                                    animate={{ height: [10, 30, 10] }}
-                                                    transition={{
-                                                        repeat: Infinity,
-                                                        duration: 0.5 + Math.random() * 0.5,
-                                                        delay: i * 0.1
-                                                    }}
-                                                    className="w-2 bg-green-500 rounded-full"
-                                                />
-                                            ))}
+                                    ) : isAccepted && !hasHacked ? (
+                                        // Active Call Visualizer (Pre-Hack)
+                                        <div className="flex flex-col items-center gap-8">
+                                            {/* Standard Visualizer */}
+                                            <div className="flex items-center gap-1 h-12">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <motion.div
+                                                        key={i}
+                                                        animate={{ height: [10, 30, 10] }}
+                                                        transition={{
+                                                            repeat: Infinity,
+                                                            duration: 0.5 + Math.random() * 0.5,
+                                                            delay: i * 0.1
+                                                        }}
+                                                        className="w-2 bg-green-500 rounded-full"
+                                                    />
+                                                ))}
+                                            </div>
+
+                                            {/* HACK BUTTON (In-Call) */}
+                                            {!isAlfred && (
+                                                <button
+                                                    onClick={startHack}
+                                                    className="animate-pulse text-xs text-amber-500 font-mono tracking-widest border border-amber-600/50 px-4 py-2 hover:bg-amber-600/10 rounded flex items-center gap-2"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.2-2.858.59-4.18" />
+                                                    </svg>
+                                                    DECRYPT SIGNAL
+                                                </button>
+                                            )}
                                         </div>
                                     ) : (
-                                        // Caller Avatar
-                                        <div className="relative w-40 h-40 rounded-full overflow-hidden border-2 border-gray-800 bg-gray-900 shadow-inner group">
+                                        // Caller Avatar (Hacked or Initial)
+                                        <div className={`relative w-40 h-40 rounded-full overflow-hidden border-2 bg-gray-900 shadow-inner group ${hasHacked ? 'border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.3)]' : 'border-gray-800'}`}>
                                             {isAlfred ? (
                                                 <img
                                                     src="https://static.wikia.nocookie.net/batman/images/e/e6/Alfred_Pennyworth_Infobox.jpg"
                                                     className="w-full h-full object-cover grayscale opacity-50"
                                                     alt="Caller"
+                                                />
+                                            ) : hasHacked ? (
+                                                // REVEALED IDENTITY
+                                                <motion.img
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                    src="https://i.pinimg.com/736x/2c/08/04/2c0804e9d3c4319dc235ce4a259c0ea4.jpg"
+                                                    className="w-full h-full object-cover grayscale-[0.2]"
+                                                    alt="JOKER"
                                                 />
                                             ) : (
                                                 // Anonymous Silhouette
@@ -251,7 +284,7 @@ export default function IncomingCall({
                                             )}
 
                                             {/* Glitch Overlay for Unknown */}
-                                            {!isAlfred && (
+                                            {!isAlfred && !hasHacked && (
                                                 <div className="absolute inset-0 bg-red-900/10 mix-blend-overlay animate-pulse"></div>
                                             )}
                                         </div>
@@ -315,7 +348,10 @@ export default function IncomingCall({
                                         // Hacking Controls (Abort)
                                         <div className="flex justify-center w-full">
                                             <button
-                                                onClick={handleDecline}
+                                                onClick={() => {
+                                                    setIsHacking(false);
+                                                    // We don't decline here if it was already accepted, just abort hack
+                                                }}
                                                 className="text-xs text-red-500 font-mono tracking-widest border border-red-900/50 px-4 py-2 hover:bg-red-900/20"
                                             >
                                                 ABORT HACK SEQUENCE
@@ -323,7 +359,12 @@ export default function IncomingCall({
                                         </div>
                                     ) : (
                                         // End Call Button (Active State)
-                                        <div className="flex justify-center items-center h-full">
+                                        <div className="flex flex-col items-center justify-center gap-4 h-full">
+                                            {/* Audio Logic Embedded */}
+                                            <div className="hidden">
+                                                {children}
+                                            </div>
+
                                             <button
                                                 onClick={handleDecline}
                                                 className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-lg hover:bg-red-700 transition-colors"
@@ -332,11 +373,6 @@ export default function IncomingCall({
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8l2-2m0 0l2-2m-2 2l-2 2m7.5 5.5L21 21m-9-1c2-2.5 5-2.5 5-2.5v-1l-2-2-2 2s-3 0-5 2.5V3a2 2 0 00-2-2 2 2 0 00-2 2v14l-4 4" />
                                                 </svg>
                                             </button>
-
-                                            {/* Audio Logic Embedded */}
-                                            <div className="hidden">
-                                                {children}
-                                            </div>
                                         </div>
                                     )}
                                 </div>

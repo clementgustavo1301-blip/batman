@@ -2,9 +2,13 @@ export interface Project {
     id: string;
     title: string;
     description: string;
+    fullDescription?: string;
     tech: string[];
     image?: string;
+    gallery?: string[];
     link?: string;
+    repoUrl?: string; // GitHub
+    demoUrl?: string; // Live Link
 }
 
 export interface Villain {
@@ -34,9 +38,25 @@ const villains: Villain[] = [
         caseFiles: [
             {
                 id: 'chaos-1',
-                title: '[Seu Projeto Aqui]',
-                description: 'Descreva um projeto onde você resolveu um problema complexo ou imprevisível.',
-                tech: ['React', 'Node.js', 'Chaos Engineering'],
+                title: 'Arkham Asylum Security Override',
+                description: 'Sistema descentralizado para controle de acesso e monitoramento.',
+                fullDescription: 'Um sistema de override completo para os protocolos de segurança de Arkham. Utiliza criptografia polimórfica para contornar firewalls estáticos e injetar código em tempo real. Este projeto demonstra capacidade de analisar sistemas legados complexos e encontrar vetores de otimização não documentados.',
+                tech: ['React', 'Node.js', 'Chaos Engineering', 'WebSockets'],
+                image: 'https://i.pinimg.com/originals/e5/28/7f/e5287f32cb4109db50a73da2eb665be7.jpg',
+                gallery: [
+                    'https://i.pinimg.com/736x/87/46/64/87466453187c532454a8e0cb20d0df1e.jpg',
+                    'https://w0.peakpx.com/wallpaper/105/291/HD-wallpaper-hacking-screen-matrix-code.jpg'
+                ],
+                demoUrl: 'https://arkham-override.demo.com',
+                repoUrl: 'https://github.com/joker/arkham-override'
+            },
+            {
+                id: 'laughing-gas',
+                title: 'Giggle-OS Distribution Network',
+                description: 'Rede de distribuição de conteúdo altamente escalável e virulenta.',
+                fullDescription: 'Algoritmo de propagação em malha (mesh network) para entrega de payload em baixa latência. O sistema se adapta à topologia da rede para maximizar a cobertura com o mínimo de nós infraestruturais. Uma metáfora técnica para campanhas de marketing viral.',
+                tech: ['Go', 'Kubernetes', 'gRPC', 'Network Analysis'],
+                demoUrl: '#',
             }
         ],
     },
@@ -53,9 +73,10 @@ const villains: Villain[] = [
         caseFiles: [
             {
                 id: 'riddle-1',
-                title: '[Seu Projeto Aqui]',
-                description: 'Descreva um projeto focado em algoritmos, otimizações ou lógica complexa.',
-                tech: ['TypeScript', 'Algorithms', 'Data Structures'],
+                title: 'Enigma Cipher Engine',
+                description: 'Motor de criptografia quântica para proteção de dados sensíveis.',
+                fullDescription: 'Implementação de curvas elípticas personalizadas para geração de chaves assimétricas. O projeto foca em eficiência computacional e resistência a ataques de força bruta, simulando a complexidade dos troféus do Charada espalhados pela cidade.',
+                tech: ['TypeScript', 'Algorithms', 'Cryptography', 'WASM'],
             }
         ],
     },
@@ -72,9 +93,10 @@ const villains: Villain[] = [
         caseFiles: [
             {
                 id: 'decision-1',
-                title: '[Seu Projeto Aqui]',
-                description: 'Descreva um projeto com sistemas de decisão, state management ou arquitetura dual.',
-                tech: ['State Machines', 'Redux', 'Decision Trees'],
+                title: 'CoinFlip Load Balancer',
+                description: 'Balanceador de carga probabilístico com viés determinístico.',
+                fullDescription: 'Um sistema de roteamento de tráfego que utiliza lógica fuzzy para decisões de "cara ou coroa" em microsserviços. Implementa padrões de Circuit Breaker e Retry com uma interface de gerenciamento que reflete a dualidade do acaso.',
+                tech: ['State Machines', 'Redux', 'Nginx', 'Lua'],
             }
         ],
     },
@@ -91,9 +113,10 @@ const villains: Villain[] = [
         caseFiles: [
             {
                 id: 'empire-1',
-                title: '[Seu Projeto Aqui]',
-                description: 'Descreva um projeto focado em arquitetura de sistemas, escalabilidade ou strategy.',
-                tech: ['Microservices', 'AWS', 'System Design'],
+                title: 'Iceberg Analytics Platform',
+                description: 'Plataforma de BI para análise de mercados submersos.',
+                fullDescription: 'Dashboard executivo para visualização de dados em tempo real. Focado em "o que está abaixo da superfície" – métricas profundas de performance e KPIs de negócio. Arquitetura orientada a eventos para processamento de alto volume.',
+                tech: ['Microservices', 'AWS', 'Tableau API', 'Kafka'],
             }
         ],
     },
@@ -110,9 +133,10 @@ const villains: Villain[] = [
         caseFiles: [
             {
                 id: 'fear-1',
-                title: '[Seu Projeto Aqui]',
-                description: 'Descreva um projeto focado em UX, psicologia do usuário ou design comportamental.',
-                tech: ['UX Research', 'A/B Testing', 'Analytics'],
+                title: 'Phobia VR Experience',
+                description: 'Interface imersiva para terapia de exposição e testes de usabilidade.',
+                fullDescription: 'Aplicação WebXR que mapeia as reações do usuário a estímulos visuais. Utiliza eye-tracking e análise de sentimento para adaptar a interface em tempo real, garantindo que o usuário nunca saia da zona de engajamento (ou terror).',
+                tech: ['UX Research', 'WebXR', 'Three.js', 'TensorFlow.js'],
             }
         ],
     },
