@@ -1,6 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Canvas } from '@react-three/fiber';
+import { Environment, OrbitControls } from '@react-three/drei';
+import Batarang3D from '@/components/3d/Batarang';
 import SystemShell from '@/components/SystemShell';
 import { equipmentList } from '@/data/equipment';
 import { holographicCard, pageTransitionVariants } from '@/utils/animations';
@@ -74,10 +77,22 @@ export default function EquipmentPage() {
               ))}
             </div>
 
-            {/* 3D Model Placeholder */}
-            <div className="absolute top-1/2 right-4 w-24 h-24 border border-gray-800/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-10 transition-opacity duration-700">
-              <span className="font-mono text-[8px] text-gray-600">SCHEMATIC_LOAD</span>
-            </div>
+            {/* 3D Model View */}
+            {item.id === 'batarang-exp' ? (
+              <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+                  <ambientLight intensity={0.5} />
+                  <pointLight position={[10, 10, 10]} intensity={1.5} color="#C9A961" />
+                  <Batarang3D />
+                  <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
+                  <Environment preset="city" />
+                </Canvas>
+              </div>
+            ) : (
+              <div className="absolute top-1/2 right-4 w-24 h-24 border border-gray-800/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-10 transition-opacity duration-700">
+                <span className="font-mono text-[8px] text-gray-600">SCHEMATIC_LOAD</span>
+              </div>
+            )}
 
           </motion.div>
         ))}
