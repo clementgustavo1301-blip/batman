@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPhoneRingtone } from '@/utils/ringtone';
 
 type Character = 'alfred' | 'joker';
@@ -24,16 +24,20 @@ export default function IncomingCall({
     isAccepted
 }: IncomingCallProps) {
     const isAlfred = character === 'alfred';
+    const [isHacking, setIsHacking] = useState(false);
+    const [hackProgress, setHackProgress] = useState(0);
+    const [hackLogs, setHackLogs] = useState<string[]>([]);
 
-    // Identity logic: Joker is "UNKNOWN"
+    // Identity logic: Joker is "UNKNOWN" until hacked (or normally)
     const displayName = isAlfred ? 'ALFRED' : 'UNKNOWN';
     const displayRole = isAlfred ? 'SECURE LINE' : 'RESTRICTED ID';
 
     const cleanupRef = useRef<(() => void) | undefined>();
+    const logIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
     // Play ringtone when call appears (only if not accepted yet)
     useEffect(() => {
-        if (show && !isAccepted) {
+        if (show && !isAccepted && !isHacking) {
             cleanupRef.current = createPhoneRingtone();
         }
 
@@ -42,23 +46,71 @@ export default function IncomingCall({
                 cleanupRef.current();
                 cleanupRef.current = undefined;
             }
+            if (logIntervalRef.current) {
+                clearInterval(logIntervalRef.current);
+            }
         };
-    }, [show, isAccepted]);
+    }, [show, isAccepted, isHacking]);
 
     const handleAccept = () => {
-        if (cleanupRef.current) {
-            cleanupRef.current();
-            cleanupRef.current = undefined;
-        }
+        stopRingtone();
         onAccept();
     };
 
     const handleDecline = () => {
+        stopRingtone();
+        onDecline();
+    };
+
+    const stopRingtone = () => {
         if (cleanupRef.current) {
             cleanupRef.current();
             cleanupRef.current = undefined;
         }
-        onDecline();
+    };
+
+    // Hacking Logic
+    const startHack = () => {
+        setIsHacking(true);
+        setHackProgress(0);
+        setHackLogs(['INITIALIZING BRUTE FORCE...']);
+        stopRingtone(); // Stop ringtone when hacking starts logic-wise
+
+        // Hacking Simulation
+        let progress = 0;
+        const totalDuration = 3000; // 3 seconds to hack
+        const intervalTime = 100;
+        const steps = totalDuration / intervalTime;
+        const increment = 100 / steps;
+
+        const possibleLogs = [
+            "BYPASSING FIREWALL...",
+            "INJECTING PAYLOAD...",
+            "DECRYPTING AUDIO STREAM...",
+            "RE-ROUTING SIGNAL...",
+            "OVERRIDING SECURITY PROTOCOL...",
+            "ACCESSING MAINFRAME...",
+            "DECODING KEY...",
+            "ESTABLISHING SECURE LINK..."
+        ];
+
+        const timer = setInterval(() => {
+            progress += increment;
+            setHackProgress(Math.min(progress, 100));
+
+            // Add random log
+            if (Math.random() > 0.6) {
+                const randomLog = possibleLogs[Math.floor(Math.random() * possibleLogs.length)];
+                setHackLogs(prev => [...prev.slice(-4), randomLog]); // Keep last 5
+            }
+
+            if (progress >= 100) {
+                clearInterval(timer);
+                setTimeout(() => {
+                    handleAccept();
+                }, 500);
+            }
+        }, intervalTime);
     };
 
     return (
@@ -72,7 +124,7 @@ export default function IncomingCall({
                         exit={{ opacity: 0 }}
                         className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-0 md:p-8"
                     >
-                        {/* Smartphone Container - Mobile First: Full screen on mobile, Phone size on desktop */}
+                        {/* Smartphone Container */}
                         <motion.div
                             initial={{ y: 1000, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -92,29 +144,79 @@ export default function IncomingCall({
                             )}
 
                             {/* Main Content Area */}
-                            <div className="h-full flex flex-col items-center justify-between py-16 px-6 relative z-10">
+                            <div className="h-full flex flex-col items-center justify-between py-16 px-6 relative z-10 w-full">
 
                                 {/* Top Info */}
-                                <div className="text-center space-y-2 mt-8">
-                                    {!isAccepted && (
+                                <div className="text-center space-y-2 mt-8 w-full">
+                                    {!isAccepted && !isHacking && (
                                         <div className="flex flex-col items-center gap-2">
                                             <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
                                             <span className="font-mono text-xs tracking-[0.2em] text-white/50 uppercase">Incoming Call...</span>
                                         </div>
                                     )}
 
-                                    <h2 className="font-bold text-3xl md:text-4xl text-white tracking-widest mt-4">
-                                        {displayName}
-                                    </h2>
-
-                                    <p className="text-xs tracking-widest text-gray-500 uppercase">
-                                        {isAccepted ? 'CONNECTED 00:01' : displayRole}
-                                    </p>
+                                    {isHacking ? (
+                                        <div className="text-green-500 font-mono text-sm tracking-widest animate-pulse">
+                                            HACKING IN PROGRESS...
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <h2 className="font-bold text-3xl md:text-4xl text-white tracking-widest mt-4">
+                                                {displayName}
+                                            </h2>
+                                            <p className="text-xs tracking-widest text-gray-500 uppercase">
+                                                {isAccepted ? 'CONNECTED 00:01' : displayRole}
+                                            </p>
+                                        </>
+                                    )}
                                 </div>
 
-                                {/* Avatar / Visualizer */}
-                                <div className="flex-1 flex items-center justify-center w-full">
-                                    {isAccepted ? (
+                                {/* Avatar / Visualizer / Hacking Interface */}
+                                <div className="flex-1 flex items-center justify-center w-full relative">
+                                    {isHacking ? (
+                                        // Hacking Interface
+                                        <div className="w-full h-full flex flex-col items-center justify-center space-y-4 px-4">
+                                            {/* Glitchy Lock Icon */}
+                                            <motion.div
+                                                animate={{
+                                                    scale: [1, 1.1, 1],
+                                                    rotate: [0, 5, -5, 0],
+                                                    opacity: [0.8, 1, 0.8]
+                                                }}
+                                                transition={{ duration: 0.2, repeat: Infinity }}
+                                                className="text-green-500 mb-4"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                                </svg>
+                                            </motion.div>
+
+                                            {/* Terminal Logs */}
+                                            <div className="w-full h-32 bg-black/50 border border-green-900/50 p-2 font-mono text-[10px] text-green-500 overflow-hidden flex flex-col justify-end">
+                                                {hackLogs.map((log, i) => (
+                                                    <motion.div
+                                                        key={i}
+                                                        initial={{ opacity: 0, x: -10 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        className="truncate"
+                                                    >
+                                                        {`> ${log}`}
+                                                    </motion.div>
+                                                ))}
+                                            </div>
+
+                                            {/* Progress Bar */}
+                                            <div className="w-full h-2 bg-gray-900 rounded-full overflow-hidden border border-green-900">
+                                                <motion.div
+                                                    className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"
+                                                    style={{ width: `${hackProgress}%` }}
+                                                />
+                                            </div>
+                                            <div className="w-full text-right text-green-500 text-xs font-mono">
+                                                {Math.round(hackProgress)}% COMPLETE
+                                            </div>
+                                        </div>
+                                    ) : isAccepted ? (
                                         // Active Call Visualizer
                                         <div className="flex items-center gap-1 h-12">
                                             {[...Array(5)].map((_, i) => (
@@ -132,7 +234,7 @@ export default function IncomingCall({
                                         </div>
                                     ) : (
                                         // Caller Avatar
-                                        <div className="relative w-40 h-40 rounded-full overflow-hidden border-2 border-gray-800 bg-gray-900 shadow-inner">
+                                        <div className="relative w-40 h-40 rounded-full overflow-hidden border-2 border-gray-800 bg-gray-900 shadow-inner group">
                                             {isAlfred ? (
                                                 <img
                                                     src="https://static.wikia.nocookie.net/batman/images/e/e6/Alfred_Pennyworth_Infobox.jpg"
@@ -147,13 +249,18 @@ export default function IncomingCall({
                                                     </svg>
                                                 </div>
                                             )}
+
+                                            {/* Glitch Overlay for Unknown */}
+                                            {!isAlfred && (
+                                                <div className="absolute inset-0 bg-red-900/10 mix-blend-overlay animate-pulse"></div>
+                                            )}
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Action Area */}
-                                <div className="w-full space-y-8 mb-8 min-h-[120px]">
-                                    {!isAccepted ? (
+                                <div className="w-full space-y-4 mb-8 min-h-[160px] flex flex-col justify-end">
+                                    {!isAccepted && !isHacking ? (
                                         <>
                                             {/* Slide to Answer */}
                                             <div className="relative h-16 w-full bg-white/5 rounded-full backdrop-blur-sm overflow-hidden p-1 border border-white/10">
@@ -179,8 +286,23 @@ export default function IncomingCall({
                                                 </motion.div>
                                             </div>
 
+                                            {/* HACK BUTTON */}
+                                            <div className="flex justify-center w-full">
+                                                <button
+                                                    onClick={startHack}
+                                                    className="group relative px-6 py-2 overflow-hidden rounded bg-transparent border border-amber-600/50 text-amber-500 font-mono text-xs tracking-[0.2em] transition-all hover:bg-amber-600/10 hover:border-amber-500 hover:text-amber-400 hover:shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+                                                >
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                                        </svg>
+                                                        HACK SECURE LINE
+                                                    </span>
+                                                </button>
+                                            </div>
+
                                             {/* Decline Button */}
-                                            <div className="flex justify-center">
+                                            <div className="flex justify-center mt-2">
                                                 <button
                                                     onClick={handleDecline}
                                                     className="text-xs text-red-900/50 hover:text-red-500 transition-colors tracking-widest uppercase font-bold"
@@ -189,6 +311,16 @@ export default function IncomingCall({
                                                 </button>
                                             </div>
                                         </>
+                                    ) : isHacking ? (
+                                        // Hacking Controls (Abort)
+                                        <div className="flex justify-center w-full">
+                                            <button
+                                                onClick={handleDecline}
+                                                className="text-xs text-red-500 font-mono tracking-widest border border-red-900/50 px-4 py-2 hover:bg-red-900/20"
+                                            >
+                                                ABORT HACK SEQUENCE
+                                            </button>
+                                        </div>
                                     ) : (
                                         // End Call Button (Active State)
                                         <div className="flex justify-center items-center h-full">
