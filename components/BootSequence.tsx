@@ -46,7 +46,6 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
 
     useEffect(() => {
         let isMounted = true;
-        let isSkipped = false;
 
         const runSequence = async () => {
             // Initial slight pause
@@ -54,17 +53,6 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
 
             for (let i = 0; i < BOOT_LINES.length; i++) {
                 if (!isMounted) return;
-
-                // Immediate finish if skipped
-                if (isSkipped) {
-                    setDisplayedLogs(BOOT_LINES.map((text, idx) => ({
-                        id: idx,
-                        text,
-                        completed: true
-                    })));
-                    setWaitingForInput(true);
-                    return;
-                }
 
                 const lineText = BOOT_LINES[i];
 
@@ -77,7 +65,6 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
                 // 2. Type out character by character FASTER
                 for (let j = 0; j < lineText.length; j++) {
                     if (!isMounted) return;
-                    if (isSkipped) break;
                     await wait(2); // SUPER FAST TYPING (2ms)
 
                     setDisplayedLogs(prev => {
@@ -87,11 +74,6 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
                         }
                         return newLogs;
                     });
-                }
-
-                if (isSkipped && isMounted) {
-                    // if skipped during typing, loop will restart and catch it at top
-                    continue;
                 }
 
                 // 3. Pause before validation FASTER
