@@ -91,7 +91,7 @@ export default function HomePage() {
                         ref={audioRef}
                         src={character === 'alfred'
                             ? "/audio/alfred_message.mp3"
-                            : `/audio/joker_call.mp3?v=${new Date().getTime()}`
+                            : "/audio/joker_call_tenebroso.mp3"
                         }
                         loop={false}
                         onEnded={handleMessageClose}
