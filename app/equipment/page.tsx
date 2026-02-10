@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import Batarang3D from '@/components/3d/Batarang';
+import GrapnelGun from '@/components/3d/GrapnelGun';
 import SystemShell from '@/components/SystemShell';
 import { equipmentList } from '@/data/equipment';
 import { holographicCard, pageTransitionVariants } from '@/utils/animations';
@@ -86,6 +87,17 @@ export default function EquipmentPage() {
                   <Batarang3D />
                   <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
                   <Environment preset="city" />
+                </Canvas>
+              </div>
+            ) : item.id === 'grapnel-gun' ? (
+              <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+                  <ambientLight intensity={0.6} />
+                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
+                  <pointLight position={[-10, -10, -10]} intensity={0.5} />
+                  <GrapnelGun />
+                  <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1.5} />
+                  <Environment preset="studio" />
                 </Canvas>
               </div>
             ) : (

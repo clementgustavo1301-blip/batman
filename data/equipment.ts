@@ -15,60 +15,60 @@ export const equipmentList: Equipment[] = [
     {
         id: 'batsuit-v8',
         name: 'Batsuit Mark VIII',
-        category: 'Armor',
-        description: 'Tactical suit with tri-weavekevlar plating and integrated comms.',
+        category: 'Armadura',
+        description: 'Traje tático com revestimento de tripla camada de kevlar e comunicação integrada.',
         specs: {
-            material: 'Tri-weave Kevlar / Titanium',
+            material: 'Kevlar de Tripla Camada / Titânio',
             weight: '18kg',
-            features: ['Bulletproof', 'Fire resistant', 'Gliding capability']
+            features: ['À prova de balas', 'Resistente ao fogo', 'Capacidade de planeio']
         },
         status: 'operational'
     },
     {
         id: 'batarang-exp',
-        name: 'Explosive Batarang',
-        category: 'Weaponry',
-        description: 'Remote detonated tactical projectile.',
+        name: 'Batarangue Explosivo',
+        category: 'Armamento',
+        description: 'Projétil tático detonado remotamente.',
         specs: {
-            material: 'Carbon Fiber',
+            material: 'Fibra de Carbono',
             weight: '0.5kg',
-            features: ['Remote detonation', 'Magnetic latch', 'Timed fuse']
+            features: ['Detonação remota', 'Trava magnética', 'Fusível temporizado']
         },
         status: 'operational'
     },
     {
         id: 'grapnel-gun',
-        name: 'Grapnel Gun',
-        category: 'Mobility',
-        description: 'High-tensile liquid cable grapnel system.',
+        name: 'Pistola de Arpéu',
+        category: 'Mobilidade',
+        description: 'Sistema de arpéu com cabo líquido de alta tensão.',
         specs: {
-            material: 'Reinforced Polymer',
+            material: 'Polímero Reforçado',
             weight: '1.2kg',
-            features: ['300m range', 'Auto-retract', 'Liquid cable']
+            features: ['Alcance de 300m', 'Retração automática', 'Cabo líquido']
         },
-        status: 'maintenance'
+        status: 'operational'
     },
     {
         id: 'utility-belt',
-        name: 'Utility Belt',
-        category: 'Storage',
-        description: 'Modular storage system for tactical equipment.',
+        name: 'Cinto de Utilidades',
+        category: 'Armazenamento',
+        description: 'Sistema de armazenamento modular para equipamentos táticos.',
         specs: {
-            material: 'Leather / Kevlar',
+            material: 'Couro / Kevlar',
             weight: '2.5kg',
-            features: ['Lead-lined pouches', 'Biometric lock', 'Emergency beacon']
+            features: ['Bolsas revestidas de chumbo', 'Trava biométrica', 'Sinalizador de emergência']
         },
         status: 'operational'
     },
     {
         id: 'cryptographic-sequencer',
-        name: 'Cryptographic Sequencer',
-        category: 'Tech',
-        description: 'Portable hacking device for bypassing security systems.',
+        name: 'Sequenciador Criptográfico',
+        category: 'Tecnologia',
+        description: 'Dispositivo portátil de hacking para contornar sistemas de segurança.',
         specs: {
-            material: 'Polycarbonate',
+            material: 'Policarbonato',
             weight: '0.3kg',
-            features: ['WiFi cracking', 'RF spoofing', 'Voice synthesis']
+            features: ['Quebra de WiFi', 'Spoofing de RF', 'Síntese de voz']
         },
         status: 'prototype'
     }
