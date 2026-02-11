@@ -81,7 +81,7 @@ export default function EquipmentPage() {
 
             {/* 3D Model View */}
             {item.id === 'batsuit-v8' ? (
-              <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+              <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500 bg-red-900/50">
                 <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }}>
                   <ambientLight intensity={0.4} />
                   <pointLight position={[10, 10, 10]} intensity={1} color="#4455bb" />
