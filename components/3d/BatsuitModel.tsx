@@ -22,6 +22,4 @@ export default function BatsuitModel({ path }: BatsuitModelProps) {
     );
 }
 
-// Pre-load the models
-useGLTF.preload('/models/batsuit-v1.glb');
-useGLTF.preload('/models/batsuit-v2.glb');
+

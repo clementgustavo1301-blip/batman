@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, OrbitControls } from '@react-three/drei';
+import { Environment, OrbitControls, Html, useProgress } from '@react-three/drei';
 import Batsuit from '@/components/3d/Batsuit';
 import BatsuitModel from '@/components/3d/BatsuitModel';
 import Batarang3D from '@/components/3d/Batarang';
@@ -10,6 +11,17 @@ import GrapnelGun from '@/components/3d/GrapnelGun';
 import SystemShell from '@/components/SystemShell';
 import { equipmentList } from '@/data/equipment';
 import { holographicCard, pageTransitionVariants } from '@/utils/animations';
+
+function ModelLoader() {
+  const { progress } = useProgress();
+  return (
+    <Html center>
+      <div className="font-mono text-wayne-gold text-xs whitespace-nowrap bg-black/80 px-2 py-1 border border-wayne-gold/30">
+        LOADING_ASSET: {progress.toFixed(0)}%
+      </div>
+    </Html>
+  );
+}
 
 export default function EquipmentPage() {
   return (
@@ -88,7 +100,9 @@ export default function EquipmentPage() {
                   <pointLight position={[10, 10, 10]} intensity={1} color="#4455bb" />
                   <pointLight position={[-10, 5, -5]} intensity={0.5} />
                   <spotLight position={[0, 10, 0]} intensity={0.8} />
-                  <BatsuitModel path="/models/batsuit-v1.glb" />
+                  <Suspense fallback={<ModelLoader />}>
+                    <BatsuitModel path="/models/batsuit-v1.glb" />
+                  </Suspense>
                   <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} maxPolarAngle={Math.PI / 1.8} minPolarAngle={Math.PI / 2.5} />
                   <Environment preset="city" />
                 </Canvas>
@@ -100,7 +114,9 @@ export default function EquipmentPage() {
                   <pointLight position={[10, 10, 10]} intensity={1} color="#4455bb" />
                   <pointLight position={[-10, 5, -5]} intensity={0.5} />
                   <spotLight position={[0, 10, 0]} intensity={0.8} />
-                  <BatsuitModel path="/models/batsuit-v2.glb" />
+                  <Suspense fallback={<ModelLoader />}>
+                    <BatsuitModel path="/models/batsuit-v2.glb" />
+                  </Suspense>
                   <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} maxPolarAngle={Math.PI / 1.8} minPolarAngle={Math.PI / 2.5} />
                   <Environment preset="city" />
                 </Canvas>
