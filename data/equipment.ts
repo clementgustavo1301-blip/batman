@@ -13,6 +13,30 @@ export interface Equipment {
 
 export const equipmentList: Equipment[] = [
     {
+        id: 'batsuit-v1',
+        name: 'Batsuit V1 (Prototype)',
+        category: 'Armadura',
+        description: 'Primeira geração do traje tático. Focado em mobilidade e proteção básica.',
+        status: 'operational',
+        specs: {
+            material: 'Nomex / Kevlar',
+            weight: '18.5 kg',
+            features: ['Proteção Balística Básica', 'Pontos de Ancoragem', 'Cinto de Utilidades V1']
+        }
+    },
+    {
+        id: 'batsuit-v2',
+        name: 'Batsuit V2 (Bindado)',
+        category: 'Armadura',
+        description: 'Segunda geração com placas reforçadas para combate pesado. Mobilidade levemente reduzida.',
+        status: 'maintenance',
+        specs: {
+            material: 'Tri-tecido com Titânio',
+            weight: '24.2 kg',
+            features: ['Placa Peitoral Reforçada', 'Absorção Cinética', 'Comunicação Integrada']
+        }
+    },
+    {
         id: 'batsuit-v8',
         name: 'Batsuit Mark VIII',
         category: 'Armadura',

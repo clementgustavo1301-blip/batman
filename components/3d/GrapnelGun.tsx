@@ -31,6 +31,18 @@ export default function GrapnelGun() {
                 <meshStandardMaterial color="#111" metalness={0.8} roughness={0.3} />
             </mesh>
 
+            {/* Rear Sight */}
+            <mesh position={[0, 0.75, -0.8]}>
+                <boxGeometry args={[0.2, 0.15, 0.1]} />
+                <meshStandardMaterial color="#222" metalness={0.8} roughness={0.3} />
+            </mesh>
+
+            {/* Front Sight */}
+            <mesh position={[0, 0.75, 1.2]}>
+                <boxGeometry args={[0.05, 0.15, 0.1]} />
+                <meshStandardMaterial color="#222" metalness={0.8} roughness={0.3} />
+            </mesh>
+
             {/* Handle Grip - Ergonomic shape approximated */}
             <mesh position={[0, -1, -0.8]} rotation={[Math.PI / 8, 0, 0]}>
                 <boxGeometry args={[0.65, 1.8, 0.9]} />
@@ -41,21 +53,33 @@ export default function GrapnelGun() {
                 <meshStandardMaterial color="#050505" roughness={0.9} />
             </mesh>
 
+            {/* Handle Butt */}
+            <mesh position={[0, -1.9, -1.1]} rotation={[Math.PI / 8, 0, 0]}>
+                <boxGeometry args={[0.7, 0.2, 1.0]} />
+                <meshStandardMaterial color="#111" metalness={0.8} roughness={0.3} />
+            </mesh>
+
             {/* Trigger Guard */}
             <mesh position={[0, -0.5, -0.2]} rotation={[0, 0, 0]}>
-                <torusGeometry args={[0.3, 0.05, 12, 24, Math.PI]} />
+                <torusGeometry args={[0.3, 0.05, 12, 8, Math.PI]} />
                 <meshStandardMaterial color="#333" metalness={0.9} />
+            </mesh>
+
+            {/* Trigger */}
+            <mesh position={[0, -0.4, -0.2]} rotation={[-0.2, 0, 0]}>
+                <boxGeometry args={[0.1, 0.3, 0.05]} />
+                <meshStandardMaterial color="#888" metalness={1} roughness={0.2} />
             </mesh>
 
             {/* Barrel - High Poly */}
             <mesh position={[0, 0.2, 1.6]} rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.25, 0.3, 1.2, 32]} />
+                <cylinderGeometry args={[0.25, 0.3, 1.2, 16]} />
                 <meshStandardMaterial color="#444" metalness={0.8} roughness={0.2} />
             </mesh>
 
             {/* Muzzle Brake */}
             <mesh position={[0, 0.2, 2.2]} rotation={[Math.PI / 2, 0, 0]}>
-                <cylinderGeometry args={[0.32, 0.32, 0.2, 16]} />
+                <cylinderGeometry args={[0.32, 0.32, 0.2, 8]} />
                 <meshStandardMaterial color="#111" metalness={0.9} />
             </mesh>
 
@@ -69,11 +93,16 @@ export default function GrapnelGun() {
                     </mesh>
                     {/* Claw Curve */}
                     <mesh rotation={[Math.PI / 3, 0, 0]} position={[0, 0.5, 0.2]}>
-                        <cylinderGeometry args={[0.02, 0.08, 0.6, 12]} />
+                        <cylinderGeometry args={[0.02, 0.08, 0.6, 6]} />
                         <meshStandardMaterial color="#777" metalness={1} roughness={0.1} />
                     </mesh>
+                    {/* Barb */}
+                    <mesh rotation={[Math.PI / 1.5, 0, 0]} position={[0, 0.6, 0.25]}>
+                        <coneGeometry args={[0.02, 0.15, 4]} />
+                        <meshStandardMaterial color="#999" metalness={1} roughness={0.1} />
+                    </mesh>
                     <mesh rotation={[Math.PI / 1.5, 0, 0]} position={[0, 0.75, 0.35]}>
-                        <coneGeometry args={[0.02, 0.3, 12]} />
+                        <coneGeometry args={[0.02, 0.3, 4]} />
                         <meshStandardMaterial color="#999" metalness={1} roughness={0.1} />
                     </mesh>
                 </group>

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import Batsuit from '@/components/3d/Batsuit';
+import BatsuitModel from '@/components/3d/BatsuitModel';
 import Batarang3D from '@/components/3d/Batarang';
 import GrapnelGun from '@/components/3d/GrapnelGun';
 import SystemShell from '@/components/SystemShell';
@@ -80,7 +81,31 @@ export default function EquipmentPage() {
             </div>
 
             {/* 3D Model View */}
-            {item.id === 'batsuit-v8' ? (
+            {item.id === 'batsuit-v1' ? (
+              <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }}>
+                  <ambientLight intensity={0.4} />
+                  <pointLight position={[10, 10, 10]} intensity={1} color="#4455bb" />
+                  <pointLight position={[-10, 5, -5]} intensity={0.5} />
+                  <spotLight position={[0, 10, 0]} intensity={0.8} />
+                  <BatsuitModel path="/models/batsuit-v1.glb" />
+                  <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} maxPolarAngle={Math.PI / 1.8} minPolarAngle={Math.PI / 2.5} />
+                  <Environment preset="city" />
+                </Canvas>
+              </div>
+            ) : item.id === 'batsuit-v2' ? (
+              <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
+                <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }}>
+                  <ambientLight intensity={0.4} />
+                  <pointLight position={[10, 10, 10]} intensity={1} color="#4455bb" />
+                  <pointLight position={[-10, 5, -5]} intensity={0.5} />
+                  <spotLight position={[0, 10, 0]} intensity={0.8} />
+                  <BatsuitModel path="/models/batsuit-v2.glb" />
+                  <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} maxPolarAngle={Math.PI / 1.8} minPolarAngle={Math.PI / 2.5} />
+                  <Environment preset="city" />
+                </Canvas>
+              </div>
+            ) : item.id === 'batsuit-v8' ? (
               <div className="absolute inset-0 z-0 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                 <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }}>
                   <ambientLight intensity={0.4} />
