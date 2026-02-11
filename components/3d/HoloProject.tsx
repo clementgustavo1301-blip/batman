@@ -13,7 +13,7 @@ export default function HoloProject({ color }: HoloProjectProps) {
     const meshRef = useRef<THREE.Mesh>(null);
     const ringRef = useRef<THREE.Mesh>(null);
 
-    useFrame((state, delta) => {
+    useFrame((_, delta) => {
         if (meshRef.current) {
             meshRef.current.rotation.y += delta * 0.2;
             meshRef.current.rotation.x += delta * 0.1;
